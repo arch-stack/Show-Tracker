@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pyuic4 ./src/ui/main.ui -o ./src/ui/main.py
+pyuic4 ./src/ui/showtab.ui -o ./src/ui/showtab.py
+pyuic4 ./src/ui/seasontab.ui -o ./src/ui/seasontab.py
