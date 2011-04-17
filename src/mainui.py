@@ -10,6 +10,8 @@ from backends.thetvdbbackend import thetvdbbackend
 from dataclasses import showmodel
 
 class mainui(QMainWindow):
+    ''' The main window '''
+    
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
         self.ui = Ui_mainui()
@@ -23,6 +25,8 @@ class mainui(QMainWindow):
         self.connect(self.ui.removeshowsbutton, SIGNAL('pressed()'), self.removeshows)
 
     def load(self):
+        ''' Load shows, setup the basics '''
+        
         label = QLabel()
         self.ui.statusbar.addWidget(label)
         
@@ -46,6 +50,8 @@ class mainui(QMainWindow):
         self.ui.statusbar.removeWidget(label)                
             
     def search(self):
+        ''' Search for a show and display a list of results '''
+        
         label = QLabel('Searching for: %s' % self.ui.searchtext.text())
         self.ui.statusbar.addWidget(label)
 
@@ -59,6 +65,8 @@ class mainui(QMainWindow):
         self.ui.statusbar.removeWidget(label)                
         
     def add(self):
+        ''' Add a show that was selected in the search results '''
+        
         row = self.ui.searchresultsview.selectedIndexes()[0].row()
         show = self.ui.searchresultsview.model().getshow(row)
         id = show.id
@@ -72,12 +80,23 @@ class mainui(QMainWindow):
         self.ui.statusbar.removeWidget(label)                
         
     def enablesearch(self, text):
+        ''' Enable search when text is valid
+            text is QString
+        '''
+        
         self.ui.searchbutton.setEnabled(not text.isEmpty())
         
     def enableadd(self, selected, deselected):
+        ''' Enable adding when the selected item is valid
+            selected is QItemSelection
+            deselected is QItemSelection
+        '''
+        
         self.ui.addbutton.setEnabled(selected != None)
         
     def displayshows(self):
+        ''' Display local shows '''
+        
         label = QLabel('Displaying shows')
         self.ui.statusbar.addWidget(label)
 
@@ -89,11 +108,16 @@ class mainui(QMainWindow):
         self.ui.statusbar.removeWidget(label)                
          
     def openshow(self, index):
+        ''' Open a local show in a new tab
+            index is QModelIndex
+        '''
+        
         row = index.row()
         show = self.ui.showlist.model().getshow(row)
         
         add = True
 
+        # Check if a tab is already open for this show
         for tabnum in range(len(self.ui.tabs)):
             if hasattr(self.ui.tabs.widget(tabnum), 'showid') and self.ui.tabs.widget(tabnum).showid == show.id:
                 add = False
@@ -108,6 +132,8 @@ class mainui(QMainWindow):
             self.ui.tabs.addTab(newtab, show.name)
         
     def updateshows(self):
+        ''' Update local shows with remote content '''
+        
         label = QLabel('Updating: ')
         bar = QProgressBar()
         bar.setMinimum(0)
@@ -125,6 +151,8 @@ class mainui(QMainWindow):
         self.ui.statusbar.removeWidget(label)
         
     def removeshows(self):
+        ''' Remove shows that were selected in the main tab '''
+        
         shows = self.ui.showlist.selectedIndexes()
         
         removableshows = []
@@ -148,6 +176,10 @@ class mainui(QMainWindow):
             QMessageBox.critical(self, 'No Shows Selected', 'You must select shows first')
             
     def displayshowstatuses(self):
+        ''' Set the show statuses for all shows
+            This only really needs to be done at the start
+        '''
+        
         label = QLabel('Updating status: ')
         self.ui.statusbar.addWidget(label)
         
@@ -168,6 +200,12 @@ class mainui(QMainWindow):
         self.ui.statusbar.removeWidget(label)
         
     def displayshowstatus(self, showid):
+        ''' Set the show status
+            The earliest non-watched date is set for the show 
+                in the model and the model should display it 
+                however it chooses
+        '''
+        
         seasons = self.backend.getlocalseasons(showid)    
         showdate = None
 
@@ -175,6 +213,9 @@ class mainui(QMainWindow):
             episodes = self.backend.getlocalepisodes(showid, season.id)
             
             for episode in episodes:
+                # Only accept a date if the episode is not watched
+                #     and the date is earlier than any previously 
+                #     selected date
                 if showdate != None:
                     if not episode.watched and episode.date != None:
                         if episode.date < showdate:
