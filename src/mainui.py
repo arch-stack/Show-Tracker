@@ -1,4 +1,4 @@
-from PyQt4.QtCore import SIGNAL
+from PyQt4.QtCore import SIGNAL, Qt
 from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox
 from exceptions import RuntimeError
 
@@ -23,6 +23,10 @@ class mainui(QMainWindow):
         self.connect(self.ui.showlist, SIGNAL('doubleClicked(QModelIndex)'), self.openshow)
         self.connect(self.ui.refreshshowsbutton, SIGNAL('pressed()'), self.updateshows)
         self.connect(self.ui.removeshowsbutton, SIGNAL('pressed()'), self.removeshows)
+        
+        self.connect(self.ui.settingsautoswitchshowtab, SIGNAL('stateChanged(int)'), self.settingsautoswitchshowtabvaluechanged)
+        self.connect(self.ui.settingsautoswitchseasontab, SIGNAL('stateChanged(int)'), self.settingsautoswitchseasontabvaluechanged)
+                     
 
     def load(self):
         ''' Load shows, setup the basics '''
@@ -33,6 +37,9 @@ class mainui(QMainWindow):
         try:
             label.setText('Loading settings')
             self.settings = settings()
+            
+            self.ui.settingsautoswitchshowtab.setChecked(self.settings.get('application', 'autoswitchshowtab'))
+            self.ui.settingsautoswitchseasontab.setChecked(self.settings.get('application', 'autoswitchseasontab'))
 
             label.setText('Loading storage')
             self.storage = storage(self.settings.path())
@@ -125,11 +132,14 @@ class mainui(QMainWindow):
         
         if add:    
             newtab = showtabui()
-            newtab.loadshow(show, self.backend)
+            newtab.loadshow(show, self.backend, self.settings)
     
             self.connect(newtab, SIGNAL('episodestatuschanged(QString, QDateTime)'), self.ui.showlist.model().setshowdate)
 
-            self.ui.tabs.addTab(newtab, show.name)
+            tabindex = self.ui.tabs.addTab(newtab, show.name)
+            
+            if self.settings.get('application', 'autoswitchshowtab'):
+                self.ui.tabs.setCurrentIndex(tabindex)
         
     def updateshows(self):
         ''' Update local shows with remote content '''
@@ -227,3 +237,19 @@ class mainui(QMainWindow):
         if showdate != None:
             self.ui.showlist.model().setshowdate(showid, showdate)
         
+    def settingscheckboxstatechanged(self, setting, state):
+        ''' Set the setting value for a checkbox
+            setting is str
+            state is Qt.CheckState
+        '''
+        
+        if state == Qt.Checked:
+            self.settings.set('application', setting, True)
+        elif state == Qt.Unchecked:
+            self.settings.set('application', setting, False)
+            
+    def settingsautoswitchshowtabvaluechanged(self, state):
+        self.settingscheckboxstatechanged('autoswitchshowtab', state)
+
+    def settingsautoswitchseasontabvaluechanged(self, state):
+        self.settingscheckboxstatechanged('autoswitchseasontab', state)

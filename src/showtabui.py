@@ -24,7 +24,7 @@ class showtabui(QWidget):
         
         self.parent().parent().removeTab(self.parent().parent().indexOf(self))
         
-    def loadshow(self, show, backend):
+    def loadshow(self, show, backend, settings):
         ''' Setup the tab with the passed show
             show is src.dataclasses.show
             backend is src.backend.backend
@@ -32,6 +32,7 @@ class showtabui(QWidget):
         
         self.showid = show.id
         self.backend = backend
+        self.settings = settings
         
         if len(show.image):            
             imagedata = self.backend.getdata(show.image)
@@ -74,7 +75,10 @@ class showtabui(QWidget):
             
             self.connect(newtab, SIGNAL('episodestatuschanged(QString, QDateTime)'), self.episodestatuschangedfunc)
     
-            self.ui.tabs.addTab(newtab, 'Season %d' % season.number)
+            tabindex = self.ui.tabs.addTab(newtab, 'Season %d' % season.number)
+            
+            if self.settings.get('application', 'autoswitchseasontab'):
+                self.ui.tabs.setCurrentIndex(tabindex)
 
     def episodestatuschangedfunc(self, id, date):
         ''' Handle when a season tab receives a new date from an episode changing
