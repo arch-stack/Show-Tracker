@@ -2,6 +2,8 @@ from PyQt4.QtCore import QSettings, QFileInfo
 from exceptions import RuntimeError
 
 class settings:
+    ''' Manage settings for the application '''
+    
     def __init__(self):
         self.__settings = QSettings(QSettings.UserScope, 'ShowTracker3', 'ShowTracker3')
         self.__path = unicode(QFileInfo(self.__settings.fileName()).absolutePath())
@@ -9,6 +11,8 @@ class settings:
             raise RuntimeError('Settings path not found')
         
     def path(self):
+        ''' Return the path to where settings are stored '''
+        
         return self.__path
     
     def set(self, prefix, key, value):
