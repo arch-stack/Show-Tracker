@@ -12,9 +12,12 @@ from backend import backend
 from src.dataclasses import show, season, episode
 
 class thetvdbbackend(backend):
+    ''' A backend to the thetvdb.com API '''
+    
     def __init__(self, settings):
         backend.__init__(self, settings)
         
+        # Load site mirrors for xml, banners, zip files
         self.__mirrors = [[], [], []]
         self.__loadmirrors()
         
