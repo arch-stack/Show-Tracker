@@ -5,6 +5,8 @@ from ui.seasontab import Ui_seasontab
 from src.dataclasses import episodemodel
 
 class seasontabui(QWidget):
+    ''' The Widget inside a tab representing a season '''
+    
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
         self.ui = Ui_seasontab()
@@ -17,9 +19,18 @@ class seasontabui(QWidget):
         self.episodestatuschanged = pyqtSignal('QString', 'QDateTime', name = 'episodestatuschanged')
 
     def closetab(self):
+        ''' Close this widget's tab
+            Only call this when the tab has already been added
+        '''
+        
         self.parent().parent().removeTab(self.parent().parent().indexOf(self))
                 
     def loadseason(self, season, backend):
+        ''' Setup the tab with the passed season
+            season is src.dataclasses.season
+            backend is src.backend.backend
+        '''
+        
         self.seasonid = season.id
         self.backend = backend
         
@@ -32,15 +43,29 @@ class seasontabui(QWidget):
 
     @pyqtSlot('QString', 'QDateTime', name = 'episodestatuschanged')
     def episodestatuschangedfunc(self, seasonid, date):
+        ''' Handle when an episodemodel receives a new date from an episode changing
+            seasonid is QString
+            date is QDateTime
+        '''
+        
         self.emit(SIGNAL('episodestatuschanged(QString, QDateTime)'), seasonid, date)
     
     def checkselected(self):
+        ''' Check all selected episodes '''
+        
         self.__setselectedcheckstate(Qt.Checked)         
     
     def uncheckselected(self):
+        ''' Uncheck all selected episodes '''
+        
         self.__setselectedcheckstate(Qt.Unchecked)            
 
     def __setselectedcheckstate(self, value):
+        ''' A Helper function to check all selected episodes with
+                the passed value
+            value is Qt.CheckState
+        '''
+        
         selectionmodel = self.ui.episodetable.selectionModel()
         datamodel = self.ui.episodetable.model()
         
