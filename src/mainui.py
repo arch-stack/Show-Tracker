@@ -38,8 +38,8 @@ class mainui(QMainWindow):
             label.setText('Loading settings')
             self.settings = settings()
             
-            self.ui.settingsautoswitchshowtab.setChecked(self.settings.get('application', 'autoswitchshowtab'))
-            self.ui.settingsautoswitchseasontab.setChecked(self.settings.get('application', 'autoswitchseasontab'))
+            self.ui.settingsautoswitchshowtab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab))
+            self.ui.settingsautoswitchseasontab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab))
 
             label.setText('Loading storage')
             self.storage = storage(self.settings.path())
@@ -244,12 +244,12 @@ class mainui(QMainWindow):
         '''
         
         if state == Qt.Checked:
-            self.settings.set('application', setting, True)
+            self.settings.set(settings.categories.application, setting, True)
         elif state == Qt.Unchecked:
-            self.settings.set('application', setting, False)
+            self.settings.set(settings.categories.application, setting, False)
             
     def settingsautoswitchshowtabvaluechanged(self, state):
-        self.settingscheckboxstatechanged('autoswitchshowtab', state)
+        self.settingscheckboxstatechanged(settings.keys.autoswitchshowtab, state)
 
     def settingsautoswitchseasontabvaluechanged(self, state):
-        self.settingscheckboxstatechanged('autoswitchseasontab', state)
+        self.settingscheckboxstatechanged(settings.keys.autoswitchseasontab, state)

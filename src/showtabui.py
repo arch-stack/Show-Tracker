@@ -4,6 +4,7 @@ from PyQt4.QtGui import QWidget, QPixmap, QImage
 from ui.showtab import Ui_ShowTab
 from seasontabui import seasontabui
 from src.dataclasses import seasonmodel
+from src.settings import settings
 
 class showtabui(QWidget):
     ''' The widget inside a tab representing a show '''
@@ -77,7 +78,7 @@ class showtabui(QWidget):
     
             tabindex = self.ui.tabs.addTab(newtab, 'Season %d' % season.number)
             
-            if self.settings.get('application', 'autoswitchseasontab'):
+            if self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab):
                 self.ui.tabs.setCurrentIndex(tabindex)
 
     def episodestatuschangedfunc(self, id, date):

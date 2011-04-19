@@ -4,6 +4,17 @@ from exceptions import RuntimeError
 class settings:
     ''' Manage settings for the application '''
     
+    class categories:
+        ''' Setting categories to be used for the prefix field in get/set '''
+        
+        application = 'application'
+    
+    class keys:
+        ''' Key names for settings to help prevent typo bugs '''
+        
+        autoswitchshowtab = 'autoswitchshowtab'
+        autoswitchseasontab = 'autoswitchseasontab'
+        
     class defaults:
         ''' Default values for settings '''
         
