@@ -23,7 +23,11 @@ class seasontabui(QWidget):
             Only call this when the tab has already been added
         '''
         
-        self.parent().parent().removeTab(self.parent().parent().indexOf(self))
+        tabwidget = self.parent().parent()
+        tabwidget.removeTab(tabwidget.indexOf(self))
+        
+        if tabwidget.count() == 2:
+            tabwidget.setCurrentIndex(0)
                 
     def loadseason(self, season, backend):
         ''' Setup the tab with the passed season

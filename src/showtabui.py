@@ -23,7 +23,11 @@ class showtabui(QWidget):
             Only call this when the tab has already been added
         '''
         
-        self.parent().parent().removeTab(self.parent().parent().indexOf(self))
+        tabwidget = self.parent().parent()
+        tabwidget.removeTab(tabwidget.indexOf(self))
+
+        if tabwidget.count() == 4:
+            tabwidget.setCurrentIndex(0)
         
     def loadshow(self, show, backend, settings):
         ''' Setup the tab with the passed show
