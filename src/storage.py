@@ -2,7 +2,7 @@ import os
 from distutils.dir_util import mkpath
 from shutil import rmtree
 
-class storage:
+class storage(object):
     ''' This class handles read/write to a given path '''
     
     def __init__(self, path):

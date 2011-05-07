@@ -2,7 +2,7 @@ from PyQt4.QtCore import QAbstractListModel, QAbstractTableModel, QVariant, Qt, 
 from PyQt4.QtGui import QIcon, QPixmap, QImage, QBrush, QColor
 from datetime import datetime
 
-class show:
+class show(object):
     ''' A representation of a show '''
     
     def __init__(self, name = '', description = '', image = '', id = '', data = None):
@@ -12,7 +12,7 @@ class show:
         self.id = id
         self.data = data
         
-class season:
+class season(object):
     ''' A representation of a season '''
 
     def __init__(self, description = '', image = '', number = 0, id = '', showid = '', data = None):
@@ -23,7 +23,7 @@ class season:
         self.showid = showid
         self.data = data
         
-class episode:
+class episode(object):
     ''' A representation of an episode '''
 
     def __init__(self, name = '', description = '', number = 0, date = None, id = '', showid = '', seasonid = '', watched = False, data = None):

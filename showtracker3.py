@@ -1,3 +1,5 @@
+#/usr/bin/python2.6
+
 from PyQt4 import QtGui
 import sys
 from src.mainui import mainui

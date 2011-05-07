@@ -1,7 +1,7 @@
 from PyQt4.QtCore import QSettings, QFileInfo
 from exceptions import RuntimeError
 
-class settings:
+class settings(object):
     ''' Manage settings for the application '''
     
     class categories:

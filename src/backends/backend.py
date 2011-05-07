@@ -5,7 +5,7 @@ from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
 
 from src.storage import storage
 
-class backend:
+class backend(object):
     ''' The backend manages the local and remote interface to
             repositories of show data
     '''
