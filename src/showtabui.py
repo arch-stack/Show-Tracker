@@ -1,8 +1,8 @@
 from PyQt4.QtCore import SIGNAL, pyqtSignal
 from PyQt4.QtGui import QWidget, QPixmap, QImage
 
-from ui.showtab import Ui_ShowTab
-from seasontabui import seasontabui
+from src.ui.showtab import Ui_ShowTab
+from src.seasontabui import seasontabui
 from src.dataclasses import seasonmodel
 from src.settings import settings
 

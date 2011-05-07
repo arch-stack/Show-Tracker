@@ -1,7 +1,7 @@
 from PyQt4.QtCore import SIGNAL, Qt, pyqtSlot, pyqtSignal
 from PyQt4.QtGui import QWidget
 
-from ui.seasontab import Ui_seasontab
+from src.ui.seasontab import Ui_seasontab
 from src.dataclasses import episodemodel
 
 class seasontabui(QWidget):

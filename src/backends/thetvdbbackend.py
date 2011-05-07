@@ -8,7 +8,7 @@ from time import strptime, mktime
 from datetime import datetime
 import os.path
 
-from backend import backend
+from src.backends.backend import backend
 from src.dataclasses import show, season, episode
 
 class thetvdbbackend(backend):

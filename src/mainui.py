@@ -2,12 +2,12 @@ from PyQt4.QtCore import SIGNAL, Qt
 from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox
 from exceptions import RuntimeError
 
-from ui.main import Ui_mainui
-from showtabui import showtabui
-from settings import settings
-from storage import storage
-from backends.thetvdbbackend import thetvdbbackend
-from dataclasses import showmodel
+from src.ui.main import Ui_mainui
+from src.showtabui import showtabui
+from src.settings import settings
+from src.storage import storage
+from src.backends.thetvdbbackend import thetvdbbackend
+from src.dataclasses import showmodel
 
 class mainui(QMainWindow):
     ''' The main window '''
