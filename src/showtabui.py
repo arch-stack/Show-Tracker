@@ -26,7 +26,7 @@ class showtabui(QWidget):
         tabwidget = self.parent().parent()
         tabwidget.removeTab(tabwidget.indexOf(self))
 
-        if tabwidget.count() == 4:
+        if tabwidget.count() == 5:
             tabwidget.setCurrentIndex(0)
         
     def loadshow(self, show, backend, settings):

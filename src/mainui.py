@@ -38,6 +38,10 @@ class mainui(QMainWindow):
             label.setText('Loading settings')
             self.settings = settings()
             
+            if self.settings.get(settings.categories.application, settings.keys.firstrun):
+                self.ui.tabs.setCurrentIndex(4)
+                self.settings.set(settings.categories.application, settings.keys.firstrun, False)
+            
             self.ui.settingsautoswitchshowtab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab))
             self.ui.settingsautoswitchseasontab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab))
 
