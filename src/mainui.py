@@ -1,6 +1,7 @@
 from PyQt4.QtCore import SIGNAL, Qt
-from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox
+from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox, QSpacerItem, QSizePolicy
 from exceptions import RuntimeError
+from datetime import datetime
 
 from src.ui.main import Ui_mainui
 from src.showtabui import showtabui
@@ -17,6 +18,10 @@ class mainui(QMainWindow):
         self.ui = Ui_mainui()
         self.ui.setupUi(self)
         
+        self.__lastupdatedlabel = QLabel()
+        
+        self.ui.statusbar.addWidget(self.__lastupdatedlabel, 1)
+                
         self.connect(self.ui.searchbutton, SIGNAL('pressed()'), self.search)
         self.connect(self.ui.addbutton, SIGNAL('pressed()'), self.add)
         self.connect(self.ui.searchtext, SIGNAL('textChanged(QString)'), self.enablesearch)
@@ -41,6 +46,9 @@ class mainui(QMainWindow):
             if self.settings.get(settings.categories.application, settings.keys.firstrun):
                 self.ui.tabs.setCurrentIndex(4)
                 self.settings.set(settings.categories.application, settings.keys.firstrun, False)
+            
+            lastupdated = self.settings.get(settings.categories.application, settings.keys.lastupdated)
+            self.setlastupdatedstatus(lastupdated)
             
             self.ui.settingsautoswitchshowtab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab))
             self.ui.settingsautoswitchseasontab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab))
@@ -164,6 +172,10 @@ class mainui(QMainWindow):
         self.ui.statusbar.removeWidget(bar)
         self.ui.statusbar.removeWidget(label)
         
+        now = datetime.now()
+        self.settings.set(settings.categories.application, settings.keys.lastupdated, now)
+        self.setlastupdatedstatus(now)
+        
     def removeshows(self):
         ''' Remove shows that were selected in the main tab '''
         
@@ -257,3 +269,10 @@ class mainui(QMainWindow):
 
     def settingsautoswitchseasontabvaluechanged(self, state):
         self.settingscheckboxstatechanged(settings.keys.autoswitchseasontab, state)
+        
+    def setlastupdatedstatus(self, date):
+        if date is None:
+            self.__lastupdatedlabel.setText('Last updated: Never')
+        else:
+            self.__lastupdatedlabel.setText('Last updated: %s' % date.strftime('%Y-%m-%d %H:%M:%S'))
+            

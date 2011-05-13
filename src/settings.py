@@ -15,6 +15,7 @@ class settings(object):
         autoswitchshowtab = 'autoswitchshowtab'
         autoswitchseasontab = 'autoswitchseasontab'
         firstrun = 'firstrun'
+        lastupdated = 'lastupdated'
         
     class defaults:
         ''' Default values for settings '''
@@ -22,6 +23,7 @@ class settings(object):
         autoswitchshowtab = True
         autoswitchseasontab = True
         firstrun = True
+        lastupdated = None
     
     def __init__(self):
         self.__settings = QSettings(QSettings.UserScope, 'ShowTracker3', 'ShowTracker3')
