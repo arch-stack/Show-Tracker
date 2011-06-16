@@ -1,9 +1,10 @@
 from PyQt4.QtCore import SIGNAL, Qt
 from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox, QSpacerItem, QSizePolicy
+from PyQt4 import uic
 from exceptions import RuntimeError
 from datetime import datetime
 
-from src.ui.main import Ui_mainui
+#from src.ui.main import Ui_mainui
 from src.showtabui import showtabui
 from src.settings import settings
 from src.storage import storage
@@ -15,8 +16,7 @@ class mainui(QMainWindow):
     
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
-        self.ui = Ui_mainui()
-        self.ui.setupUi(self)
+        self.ui = uic.loadUi('src/ui/main.ui', self)
         
         self.__lastupdatedlabel = QLabel()
         
