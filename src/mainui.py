@@ -150,7 +150,7 @@ class mainui(QMainWindow):
 
             tabindex = self.ui.tabs.addTab(newtab, show.name)
             
-            if self.settings.get('application', 'autoswitchshowtab'):
+            if self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab):
                 self.ui.tabs.setCurrentIndex(tabindex)
         
     def updateshows(self):
