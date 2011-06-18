@@ -1,6 +1,7 @@
 from PyQt4.QtCore import SIGNAL, pyqtSignal
 from PyQt4.QtGui import QWidget, QPixmap, QImage
 from PyQt4 import uic
+import os.path
 
 from src.seasontabui import seasontabui
 from src.dataclasses import seasonmodel
@@ -11,7 +12,7 @@ class showtabui(QWidget):
     
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
-        self.ui = uic.loadUi('src/ui/showtab.ui', self)
+        self.ui = uic.loadUi(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ui/showtab.ui'), self)
         
         self.connect(self.ui.closebutton, SIGNAL('pressed()'), self.closetab)
         self.connect(self.ui.seasonlist, SIGNAL('doubleClicked(QModelIndex)'), self.openseason)

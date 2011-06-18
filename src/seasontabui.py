@@ -1,6 +1,7 @@
 from PyQt4.QtCore import SIGNAL, Qt, pyqtSlot, pyqtSignal
 from PyQt4.QtGui import QWidget
 from PyQt4 import uic
+import os.path
 
 from src.dataclasses import episodemodel
 
@@ -9,7 +10,7 @@ class seasontabui(QWidget):
     
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
-        self.ui = uic.loadUi('src/ui/seasontab.ui', self)
+        self.ui = uic.loadUi(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ui/seasontab.ui'), self)
         
         self.connect(self.ui.closebutton, SIGNAL('pressed()'), self.closetab)
         self.connect(self.ui.checkselectedbutton, SIGNAL('pressed()'), self.checkselected)
