@@ -175,6 +175,7 @@ class mainui(QMainWindow):
         now = datetime.now()
         self.settings.set(settings.categories.application, settings.keys.lastupdated, now)
         self.setlastupdatedstatus(now)
+        self.displayshowstatuses()
         
     def removeshows(self):
         ''' Remove shows that were selected in the main tab '''
@@ -204,6 +205,7 @@ class mainui(QMainWindow):
     def displayshowstatuses(self):
         ''' Set the show statuses for all shows
             This only really needs to be done at the start
+                or after updating data
         '''
         
         label = QLabel('Updating status: ')
