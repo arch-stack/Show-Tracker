@@ -1,5 +1,5 @@
-from PyQt4.QtCore import SIGNAL, Qt
-from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox, QSpacerItem, QSizePolicy
+from PyQt4.QtCore import SIGNAL, Qt, QSize
+from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox, QSpacerItem, QSizePolicy, QDialog, QTextEdit, QVBoxLayout
 from PyQt4 import uic
 from exceptions import RuntimeError
 from datetime import datetime
@@ -28,6 +28,7 @@ class mainui(QMainWindow):
         self.connect(self.ui.showlist, SIGNAL('doubleClicked(QModelIndex)'), self.openshow)
         self.connect(self.ui.refreshshowsbutton, SIGNAL('pressed()'), self.updateshows)
         self.connect(self.ui.removeshowsbutton, SIGNAL('pressed()'), self.removeshows)
+        self.connect(self.ui.getshowlistbutton, SIGNAL('pressed()'), self.getshowlist)
         
         self.connect(self.ui.settingsautoswitchshowtab, SIGNAL('stateChanged(int)'), self.settingsautoswitchshowtabvaluechanged)
         self.connect(self.ui.settingsautoswitchseasontab, SIGNAL('stateChanged(int)'), self.settingsautoswitchseasontabvaluechanged)
@@ -278,3 +279,26 @@ class mainui(QMainWindow):
         else:
             self.__lastupdatedlabel.setText('Last updated: %s' % date.strftime('%Y-%m-%d %H:%M:%S'))
             
+    def getshowlist(self):
+        ''' Display a dialog with a list of the show names in a way that allows 
+                the user to copy it to the clipboard if desired
+        '''
+        
+        dialog = QDialog(self)
+        dialog.setWindowTitle('%s - %s' % (self.windowTitle(), 'Tracked shows'))
+        dialog.setFixedSize(QSize(320, 400))
+        
+        layout = QVBoxLayout()
+        dialog.setLayout(layout)
+
+        textedit = QTextEdit()
+        layout.addWidget(textedit)
+        
+        shows = self.backend.getlocalshows()
+        text = []
+        for show in shows:
+            text.append(show.name)
+        
+        textedit.setText('\n'.join(text))
+        
+        dialog.open()
