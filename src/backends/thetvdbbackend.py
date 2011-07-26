@@ -15,6 +15,9 @@ class thetvdbbackend(backend):
     ''' A backend to the thetvdb.com API '''
     
     def __init__(self, settings):
+        '''
+        @type settings: L{src.settings.settings}
+        '''
         backend.__init__(self, settings)
         
         # Load site mirrors for xml, banners, zip files
@@ -23,6 +26,9 @@ class thetvdbbackend(backend):
         
         
     def searchshow(self, name):
+        '''
+        @type name: str
+        '''
         data = self._request('http://www.thetvdb.com/api/GetSeries.php?seriesname=%s' % name)
         
         xml = QDomDocument()
@@ -73,10 +79,16 @@ class thetvdbbackend(backend):
         return shows
         
     def addshow(self, id):
+        '''
+        @type id: str
+        '''
         if not self._storage.exists('shows/%s' % id):
             self.updateshow(id)    
     
     def updateshow(self, id):
+        '''
+        @type id: str
+        '''
         zipdata = self._request(urljoin(choice(self.__mirrors[2]), '/api/%s/series/%s/all/en.zip' % (self.__apikey(), id)))
         
         zipio = BytesIO()
@@ -142,6 +154,9 @@ class thetvdbbackend(backend):
                     self._download(urljoin(urljoin(choice(self.__mirrors[1]), '/banners/'), sortedbanners[0][0]), 'seasonbanners/%s%s' % (bannerseasonid, os.path.splitext(sortedbanners[0][0])[1]))
         
     def getlocalseasons(self, id):
+        '''
+        @type id: str
+        '''
         seasons = {}
         
         if self._storage.exists('shows/%s/en.xml' % id):
@@ -171,6 +186,10 @@ class thetvdbbackend(backend):
         return sorted(seasons.values(), key = lambda item: item.number)
     
     def getlocalepisodes(self, showid, seasonid):
+        '''
+        @type showid: str
+        @type seasonid: str
+        '''
         episodes = []
 
         if self._storage.exists('shows/%s/en.xml' % showid):
@@ -212,6 +231,9 @@ class thetvdbbackend(backend):
         return sorted(episodes, key = lambda item: item.number)
     
     def removeshow(self, id):
+        '''
+        @type id: str
+        '''
         self._storage.removedir('shows/%s' % id)
         
         

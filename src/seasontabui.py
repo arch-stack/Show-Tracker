@@ -9,6 +9,9 @@ class seasontabui(QWidget):
     ''' The Widget inside a tab representing a season '''
     
     def __init__(self, parent = None):
+        '''
+        @type parent: QWidget
+        '''
         QWidget.__init__(self, parent)
         self.ui = uic.loadUi(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ui/seasontab.ui'), self)
         
@@ -20,7 +23,7 @@ class seasontabui(QWidget):
 
     def closetab(self):
         ''' Close this widget's tab
-            Only call this when the tab has already been added
+        Only call this when the tab has already been added
         '''
         
         tabwidget = self.parent().parent()
@@ -31,8 +34,8 @@ class seasontabui(QWidget):
                 
     def loadseason(self, season, backend):
         ''' Setup the tab with the passed season
-            season is src.dataclasses.season
-            backend is src.backend.backend
+        @type season: L{src.dataclasses.season}
+        @type backend: L{src.backends.backend.backend}
         '''
         
         self.seasonid = season.id
@@ -48,8 +51,8 @@ class seasontabui(QWidget):
     @pyqtSlot('QString', 'QDateTime', name = 'episodestatuschanged')
     def episodestatuschangedfunc(self, seasonid, date):
         ''' Handle when an episodemodel receives a new date from an episode changing
-            seasonid is QString
-            date is QDateTime
+        @type seasonid: QString
+        @type date: QDateTime
         '''
         
         self.emit(SIGNAL('episodestatuschanged(QString, QDateTime)'), seasonid, date)
@@ -66,8 +69,8 @@ class seasontabui(QWidget):
 
     def __setselectedcheckstate(self, value):
         ''' A Helper function to check all selected episodes with
-                the passed value
-            value is Qt.CheckState
+        the passed value
+        @type value: Qt.CheckState
         '''
         
         selectionmodel = self.ui.episodetable.selectionModel()

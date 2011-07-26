@@ -15,6 +15,9 @@ class mainui(QMainWindow):
     ''' The main window '''
     
     def __init__(self, parent = None):
+        '''
+        @type parent: QWidget
+        '''
         QMainWindow.__init__(self, parent)
         self.ui = uic.loadUi(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ui/main.ui'), self)
         
@@ -101,15 +104,15 @@ class mainui(QMainWindow):
         
     def enablesearch(self, text):
         ''' Enable search when text is valid
-            text is QString
+        @type text: QString
         '''
         
         self.ui.searchbutton.setEnabled(not text.isEmpty())
         
     def enableadd(self, selected, deselected):
         ''' Enable adding when the selected item is valid
-            selected is QItemSelection
-            deselected is QItemSelection
+        @type selected: QItemSelection
+        @type deselected: QItemSelection
         '''
         
         self.ui.addbutton.setEnabled(selected != None)
@@ -129,7 +132,7 @@ class mainui(QMainWindow):
          
     def openshow(self, index):
         ''' Open a local show in a new tab
-            index is QModelIndex
+        @type index: QModelIndex
         '''
         
         row = index.row()
@@ -205,8 +208,8 @@ class mainui(QMainWindow):
             
     def displayshowstatuses(self):
         ''' Set the show statuses for all shows
-            This only really needs to be done at the start
-                or after updating data
+        This only really needs to be done at the start
+        or after updating data
         '''
         
         label = QLabel('Updating status: ')
@@ -230,9 +233,9 @@ class mainui(QMainWindow):
         
     def displayshowstatus(self, showid):
         ''' Set the show status
-            The earliest non-watched date is set for the show 
-                in the model and the model should display it 
-                however it chooses
+        The earliest non-watched date is set for the show 
+        in the model and the model should display it 
+        however it chooses
         '''
         
         seasons = self.backend.getlocalseasons(showid)    
@@ -258,8 +261,8 @@ class mainui(QMainWindow):
         
     def settingscheckboxstatechanged(self, setting, state):
         ''' Set the setting value for a checkbox
-            setting is str
-            state is Qt.CheckState
+        @type setting: str
+        @type state: Qt.CheckState
         '''
         
         if state == Qt.Checked:
@@ -268,12 +271,21 @@ class mainui(QMainWindow):
             self.settings.set(settings.categories.application, setting, False)
             
     def settingsautoswitchshowtabvaluechanged(self, state):
+        '''
+        @type state: Qt.CheckState
+        '''
         self.settingscheckboxstatechanged(settings.keys.autoswitchshowtab, state)
 
     def settingsautoswitchseasontabvaluechanged(self, state):
+        '''
+        @type state: Qt.CheckState
+        '''
         self.settingscheckboxstatechanged(settings.keys.autoswitchseasontab, state)
         
     def setlastupdatedstatus(self, date):
+        '''
+        @type date: date
+        '''
         if date is None:
             self.__lastupdatedlabel.setText('Last updated: Never')
         else:
@@ -281,7 +293,7 @@ class mainui(QMainWindow):
             
     def getshowlist(self):
         ''' Display a dialog with a list of the show names in a way that allows 
-                the user to copy it to the clipboard if desired
+        the user to copy it to the clipboard if desired
         '''
         
         dialog = QDialog(self)

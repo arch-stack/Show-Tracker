@@ -11,6 +11,9 @@ class showtabui(QWidget):
     ''' The widget inside a tab representing a show '''
     
     def __init__(self, parent = None):
+        '''
+        @type parent: QWidget
+        '''
         QWidget.__init__(self, parent)
         self.ui = uic.loadUi(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ui/showtab.ui'), self)
         
@@ -21,7 +24,7 @@ class showtabui(QWidget):
                 
     def closetab(self):
         ''' Close this widget's tab
-            Only call this when the tab has already been added
+        Only call this when the tab has already been added
         '''
         
         tabwidget = self.parent().parent()
@@ -32,8 +35,9 @@ class showtabui(QWidget):
         
     def loadshow(self, show, backend, settings):
         ''' Setup the tab with the passed show
-            show is src.dataclasses.show
-            backend is src.backend.backend
+        @type show: L{src.dataclasses.show}
+        @type backend: L{src.backends.backend.backend}
+        @type settings: L{src.settings.settings}
         '''
         
         self.showid = show.id
@@ -61,7 +65,7 @@ class showtabui(QWidget):
         
     def openseason(self, index):
         ''' Open a season that is selected
-            index is QModelIndex
+        @type index: QModelIndex
         '''
         
         row = index.row()
@@ -88,8 +92,8 @@ class showtabui(QWidget):
 
     def episodestatuschangedfunc(self, id, date):
         ''' Handle when a season tab receives a new date from an episode changing
-            id is QString
-            date is QDateTime
+        @type id: QString
+        @type date: QDateTime
         '''
         
         self.ui.seasonlist.model().setseasondate(id, date)
@@ -97,9 +101,9 @@ class showtabui(QWidget):
         
     def displayseasonstatus(self, showid, seasonid):
         ''' Display the season status for an individual season
-            This only needs to be called when the show tab is opened
-            showid is str
-            seasonid is str
+        This only needs to be called when the show tab is opened
+        @type showid: str
+        @type seasonid: str
         '''
         
         seasondate = None

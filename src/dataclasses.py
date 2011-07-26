@@ -6,6 +6,13 @@ class show(object):
     ''' A representation of a show '''
     
     def __init__(self, name = '', description = '', image = '', id = '', data = None):
+        '''
+        @type name: str
+        @type description: str
+        @type image: str
+        @type id: str
+        @type data: obj
+        '''
         self.name = name
         self.description = description
         self.image = image
@@ -16,6 +23,14 @@ class season(object):
     ''' A representation of a season '''
 
     def __init__(self, description = '', image = '', number = 0, id = '', showid = '', data = None):
+        '''
+        @type description: str
+        @type image: str
+        @type number: int
+        @type id: str
+        @type showid: str
+        @type data: obj
+        '''
         self.description = description
         self.image = image
         self.number = number
@@ -27,6 +42,16 @@ class episode(object):
     ''' A representation of an episode '''
 
     def __init__(self, name = '', description = '', number = 0, date = None, id = '', showid = '', seasonid = '', watched = False, data = None):
+        '''
+        @type name: str
+        @type description: str
+        @type number: int
+        @type id: str
+        @type showid: str
+        @type seasonid: str
+        @type watched: bool
+        @type data: obj
+        '''
         self.name = name
         self.description = description
         self.number = number
@@ -38,9 +63,13 @@ class episode(object):
         self.data = data
         
 class showmodel(QAbstractListModel):
-    ''' This model handles the visual representation of a list of src.dataclasses.show '''
+    ''' This model handles the visual representation of a list of L{src.dataclasses.show} '''
     
     def __init__(self, backend, data = []):
+        '''
+        @type backend: L{src.backends.backend.backend}
+        @type data: dict
+        '''
         QAbstractListModel.__init__(self, parent = None)
         self.__backend = backend
         self.__data = data
@@ -52,6 +81,10 @@ class showmodel(QAbstractListModel):
         self.__loadedimages = {None: QIcon(pix)}
         
     def data(self, index, role = Qt.DisplayRole):
+        '''
+        @type index: QModelIndex
+        @type role: Qt.ItemDataRole
+        '''
         rval = QVariant()
         
         if index.isValid():
@@ -94,19 +127,22 @@ class showmodel(QAbstractListModel):
         return rval
         
     def rowCount(self, parent = QModelIndex()):
+        '''
+        @type parent: QModelIndex
+        '''
         return len(self.__data)
     
     def getshow(self, row):
         ''' Return a show instance based on the row number 
-            row is int
+        @type row: int
         '''
         
         return self.__data[row]
     
     def setshowdate(self, id, date):
         ''' Set the next episode date for a show
-            id is str or QString
-            date is datetime or QDateTime
+        @type id: str or QString
+        @type date: datetime or QDateTime
         '''
         
         if isinstance(id, QString):
@@ -131,7 +167,7 @@ class showmodel(QAbstractListModel):
     
     def addshow(self, show):
         ''' Add a show to the list of displayed shows
-            show is src.dataclasses.show
+        @type show: L{src.dataclasses.show}
         '''
         
         self.beginInsertRows(QModelIndex(), len(self.__data), len(self.__data))
@@ -140,7 +176,7 @@ class showmodel(QAbstractListModel):
         
     def removeshow(self, show):
         ''' Remove a show from the list of displayed shows
-            show is src.dataclasses.show
+        @type show: L{src.dataclasses.show}
         '''
         
         row = self.__data.index(show)
@@ -149,9 +185,13 @@ class showmodel(QAbstractListModel):
         self.endRemoveRows()
     
 class seasonmodel(QAbstractListModel):
-    ''' This model handles the visual representation of a list of src.dataclasses.season '''
+    ''' This model handles the visual representation of a list of L{src.dataclasses.season} '''
     
     def __init__(self, backend, data = []):
+        '''
+        @type backend: L{src.backends.backend.backend}
+        @type data: dict
+        '''
         QAbstractListModel.__init__(self, parent = None)
         self.__backend = backend
         self.__data = data
@@ -163,6 +203,10 @@ class seasonmodel(QAbstractListModel):
         self.__loadedimages = {None: QIcon(pix)}
         
     def data(self, index, role = Qt.DisplayRole):
+        '''
+        @type index: QModelIndex
+        @type role: Qt.ItemDataRole
+        '''
         rval = QVariant()
         
         if index.isValid():
@@ -206,19 +250,22 @@ class seasonmodel(QAbstractListModel):
         return rval
         
     def rowCount(self, parent = QModelIndex()):
+        '''
+        @type parent: QModelIndex
+        '''
         return len(self.__data)
     
     def getseason(self, row):
         ''' Return a season instance based on the row number 
-            row is int
+        @type row: int
         '''
         
         return self.__data[row]
     
     def setseasondate(self, id, date):        
         ''' Set the next episode date for a season
-            id is str or QString
-            date is datetime or QDateTime
+        @type id: str or QString
+        @type date: datetime or QDateTime
         '''
         
         if isinstance(id, QString):
@@ -243,7 +290,7 @@ class seasonmodel(QAbstractListModel):
             
     def getshowdate(self):
         ''' Return a date based on the earliest date of all the 
-            seasons this model represents
+        seasons this model represents
         '''
         
         showdate = None
@@ -262,9 +309,14 @@ class seasonmodel(QAbstractListModel):
             
     
 class episodemodel(QAbstractTableModel):
-    ''' This model handles the visual representation of a list of src.dataclasses.episode '''
+    ''' This model handles the visual representation of a list of L{src.dataclasses.episode} '''
     
     def __init__(self, backend, seasonid, data = []):
+        '''
+        @type backend: L{src.backends.backend.backend}
+        @type seasonid: str
+        @type data: dict
+        '''
         QAbstractTableModel.__init__(self, parent = None)
         self.__backend = backend
         self.__seasonid = seasonid
@@ -273,12 +325,23 @@ class episodemodel(QAbstractTableModel):
         self.__episodestatuschanged = pyqtSignal('QString', 'QDateTime', name = 'episodestatuschanged')
 
     def rowCount(self, parent = QModelIndex()):
+        '''
+        @type parent: QModelIndex
+        '''
         return len(self.__data)
 
     def columnCount(self, parent = QModelIndex()):
+        '''
+        @type parent: QModelIndex
+        '''
         return 2
 
     def headerData(self, section, orientation, role = Qt.DisplayRole):
+        '''
+        @type section: int
+        @type orientation: Qt.Orientation
+        @type role: Qt.ItemDataRole
+        '''
         rval = QVariant()
         
         # Display vertical headers based on the episode number
@@ -289,6 +352,10 @@ class episodemodel(QAbstractTableModel):
         return rval
     
     def data(self, index, role = Qt.DisplayRole):
+        '''
+        @type index: QModelIndex
+        @type role: Qt.ItemDataRole
+        '''
         rval = QVariant()
         
         if index.isValid():
@@ -328,12 +395,15 @@ class episodemodel(QAbstractTableModel):
     
     def getepisode(self, row):
         ''' Return an episode instance based on the row number 
-            row is int
+        @type row: int
         '''
         
         return self.__data[row]
     
     def flags(self, index):
+        '''
+        @type index: QModelIndex
+        '''
         flags = QAbstractTableModel.flags(self, index)
         
         if index.column() == 1:
@@ -342,6 +412,11 @@ class episodemodel(QAbstractTableModel):
         return flags
     
     def setData(self, index, value, role = Qt.EditRole):
+        '''
+        @type index: QModelIndex
+        @type value: obj
+        @type role: Qt.ItemDataRole
+        '''
         result = False
         
         if index.column() == 1:

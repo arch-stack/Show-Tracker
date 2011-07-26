@@ -37,15 +37,20 @@ class settings(object):
         return self.__path
     
     def set(self, prefix, key, value):
+        '''
+        @type prefix: str
+        @type key: str
+        @type value: obj
+        '''
         self.__settings.setValue('%s/%s' % (prefix, key), value)
         
     def get(self, prefix, key, default = None):
         ''' Get settings under a prefix with a key and optional default value
-            If default is omitted or None, a default value will be looked up in
-                the defaults class
-            prefix is str
-            key is str
-            default is any
+        If default is omitted or None, a default value will be looked up in
+        the defaults class
+        @type prefix: str
+        @type key: str
+        @type default: obj
         '''
         
         value = default
@@ -56,4 +61,8 @@ class settings(object):
         return self.__settings.value('%s/%s' % (prefix, key), value, type(value))
     
     def remove(self, prefix, key):
+        '''
+        @type prefix: str
+        @type key: str
+        '''
         self.__settings.remove('%s/%s' % (prefix, key))
