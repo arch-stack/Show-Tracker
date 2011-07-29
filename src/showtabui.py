@@ -87,7 +87,7 @@ class showtabui(QWidget):
     
             tabindex = self.ui.tabs.addTab(newtab, 'Season %d' % season.number)
             
-            if self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab):
+            if self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab, bool):
                 self.ui.tabs.setCurrentIndex(tabindex)
 
     def episodestatuschangedfunc(self, id, date):

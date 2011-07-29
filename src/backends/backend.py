@@ -26,12 +26,13 @@ class backend(object):
         '''
         self.__settings.set(self.__class__.__name__, key, value)
     
-    def _getsetting(self, key, default):
+    def _getsetting(self, key, rtype, default):
         '''
         @type key: str
+        @type rtype: type
         @type default: obj
         '''
-        return self.__settings.get(self.__class__.__name__, key, default)
+        return self.__settings.get(self.__class__.__name__, key, rtype, default)
 
     def _removesetting(self, key):
         '''
@@ -99,7 +100,7 @@ class backend(object):
         @type seasonid: str
         @type episodeid: str
         '''
-        return self._getsetting('watched/%s/%s/%s' % (showid, seasonid, episodeid), False)
+        return self._getsetting('watched/%s/%s/%s' % (showid, seasonid, episodeid), bool, False)
     
     
     def searchshow(self, name):

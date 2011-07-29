@@ -47,15 +47,15 @@ class mainui(QMainWindow):
             label.setText('Loading settings')
             self.settings = settings()
             
-            if self.settings.get(settings.categories.application, settings.keys.firstrun):
+            if self.settings.get(settings.categories.application, settings.keys.firstrun, bool):
                 self.ui.tabs.setCurrentIndex(4)
                 self.settings.set(settings.categories.application, settings.keys.firstrun, False)
             
-            lastupdated = self.settings.get(settings.categories.application, settings.keys.lastupdated)
+            lastupdated = self.settings.get(settings.categories.application, settings.keys.lastupdated, datetime)
             self.setlastupdatedstatus(lastupdated)
             
-            self.ui.settingsautoswitchshowtab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab))
-            self.ui.settingsautoswitchseasontab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab))
+            self.ui.settingsautoswitchshowtab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab, bool))
+            self.ui.settingsautoswitchseasontab.setChecked(self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab, bool))
 
             label.setText('Loading storage')
             self.storage = storage(self.settings.path())
@@ -154,7 +154,7 @@ class mainui(QMainWindow):
 
             tabindex = self.ui.tabs.addTab(newtab, show.name)
             
-            if self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab):
+            if self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab, bool):
                 self.ui.tabs.setCurrentIndex(tabindex)
         
     def updateshows(self):

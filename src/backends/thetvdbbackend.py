@@ -238,7 +238,7 @@ class thetvdbbackend(backend):
         
         
     def __apikey(self):
-        return self._getsetting('apikey', 'C66331E1E6D28F85')
+        return self._getsetting('apikey', str, 'C66331E1E6D28F85')
     
     def __loadmirrors(self):
         data = self._request('http://www.thetvdb.com/api/%s/mirrors.xml' % self.__apikey())

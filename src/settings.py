@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QSettings, QFileInfo
+from PyQt4.QtCore import QSettings, QFileInfo, QVariant
 from exceptions import RuntimeError
 
 class settings(object):
@@ -42,24 +42,28 @@ class settings(object):
         @type key: str
         @type value: obj
         '''
-        self.__settings.setValue('%s/%s' % (prefix, key), value)
+        self.__settings.setValue('%s/%s' % (prefix, key), QVariant(value))
         
-    def get(self, prefix, key, default = None):
+    def get(self, prefix, key, rtype, default = None):
         ''' Get settings under a prefix with a key and optional default value
         If default is omitted or None, a default value will be looked up in
         the defaults class
         @type prefix: str
         @type key: str
+        @type rtype: type
         @type default: obj
         '''
-        
+                
         value = default
         if value == None:
             if hasattr(self.defaults, key):
                 value = getattr(self.defaults, key)
                 
-        return self.__settings.value('%s/%s' % (prefix, key), value, type(value))
-    
+        if self.__settings.contains('%s/%s' % (prefix, key)):
+            value = self.__settings.value('%s/%s' % (prefix, key), value, rtype)
+        
+        return value
+            
     def remove(self, prefix, key):
         '''
         @type prefix: str

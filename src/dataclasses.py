@@ -1,11 +1,12 @@
 from PyQt4.QtCore import QAbstractListModel, QAbstractTableModel, QVariant, Qt, QModelIndex, SIGNAL, pyqtSignal, QDateTime, QString
 from PyQt4.QtGui import QIcon, QPixmap, QImage, QBrush, QColor
 from datetime import datetime
+from exceptions import TypeError
 
 class show(object):
     ''' A representation of a show '''
     
-    def __init__(self, name = '', description = '', image = '', id = '', data = None):
+    def __init__(self, name = u'', description = u'', image = u'', id = u'', data = None):
         '''
         @type name: str
         @type description: str
@@ -13,16 +14,61 @@ class show(object):
         @type id: str
         @type data: obj
         '''
+        
         self.name = name
         self.description = description
         self.image = image
         self.id = id
         self.data = data
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, val):
+        if type(val) != unicode:
+            raise TypeError()
         
+        self._name = val
+        
+    @property
+    def description(self):
+        return self._description
+    
+    @description.setter
+    def description(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._description = val
+        
+    @property
+    def image(self):
+        return self._image
+    
+    @image.setter
+    def image(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._image = val
+        
+    @property
+    def id(self):
+        return self._id
+    
+    @id.setter
+    def id(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._id = val
+                    
 class season(object):
     ''' A representation of a season '''
 
-    def __init__(self, description = '', image = '', number = 0, id = '', showid = '', data = None):
+    def __init__(self, description = u'', image = u'', number = 0, id = u'', showid = u'', data = None):
         '''
         @type description: str
         @type image: str
@@ -31,6 +77,7 @@ class season(object):
         @type showid: str
         @type data: obj
         '''
+                
         self.description = description
         self.image = image
         self.number = number
@@ -38,14 +85,69 @@ class season(object):
         self.showid = showid
         self.data = data
         
+    @property
+    def description(self):
+        return self._description
+    
+    @description.setter
+    def description(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._description = val
+        
+    @property
+    def image(self):
+        return self._image
+    
+    @image.setter
+    def image(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._image = val
+        
+    @property
+    def number(self):
+        return self._number
+    @number.setter
+    def number(self, val):
+        if type(val) != int:
+            raise TypeError()
+        
+        self._number = val
+        
+    @property
+    def id(self):
+        return self._id
+    
+    @id.setter
+    def id(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._id = val
+        
+    @property
+    def showid(self):
+        return self._showid
+    
+    @showid.setter
+    def showid(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._showid = val
+        
 class episode(object):
     ''' A representation of an episode '''
 
-    def __init__(self, name = '', description = '', number = 0, date = None, id = '', showid = '', seasonid = '', watched = False, data = None):
+    def __init__(self, name = u'', description = u'', number = 0, date = None, id = u'', showid = u'', seasonid = u'', watched = False, data = None):
         '''
         @type name: str
         @type description: str
         @type number: int
+        @type date: datetime
         @type id: str
         @type showid: str
         @type seasonid: str
@@ -61,6 +163,93 @@ class episode(object):
         self.seasonid = seasonid
         self.watched = watched
         self.data = data
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._name = val
+        
+    @property
+    def description(self):
+        return self._description
+    
+    @description.setter
+    def description(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._description = val
+        
+    @property
+    def number(self):
+        return self._number
+    @number.setter
+    def number(self, val):
+        if type(val) != int:
+            raise TypeError()
+        
+        self._number = val
+        
+    @property
+    def date(self):
+        return self._date
+    
+    @date.setter
+    def date(self, val):
+        if type(val) != datetime:
+            raise TypeError()
+        
+        self._date = val
+        
+    @property
+    def id(self):
+        return self._id
+    
+    @id.setter
+    def id(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._id = val
+        
+    @property
+    def showid(self):
+        return self._showid
+    
+    @showid.setter
+    def showid(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._showid = val
+        
+    @property
+    def seasonid(self):
+        return self._seasonid
+    
+    @seasonid.setter
+    def seasonid(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._seasonid = val
+        
+    @property
+    def watched(self):
+        return self._watched
+    
+    @showid.setter
+    def watched(self, val):
+        if type(val) != bool:
+            raise TypeError()
+        
+        self._watched = val
         
 class showmodel(QAbstractListModel):
     ''' This model handles the visual representation of a list of L{src.dataclasses.show} '''
