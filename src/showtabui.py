@@ -2,6 +2,7 @@ from PyQt4.QtCore import SIGNAL, pyqtSignal
 from PyQt4.QtGui import QWidget, QPixmap, QImage
 from PyQt4 import uic
 import os.path
+from datetime import datetime
 
 from src.seasontabui import seasontabui
 from src.dataclasses import seasonmodel
@@ -106,20 +107,20 @@ class showtabui(QWidget):
         @type seasonid: str
         '''
         
-        seasondate = None
+        seasondate = datetime.min
         episodes = self.backend.getlocalepisodes(showid, seasonid)
         
         for episode in episodes:
             # Only choose a date if the episode is not watched
             #     and the date is less than the previously
             #     selected one
-            if seasondate != None:
-                if not episode.watched and episode.date != None:
+            if seasondate != datetime.min:
+                if not episode.watched and episode.date != datetime.min:
                     if episode.date < seasondate:
                         seasondate = episode.date
             else:
                 if not episode.watched:
                     seasondate = episode.date
     
-        if seasondate != None:
+        if seasondate != datetime.min:
             self.ui.seasonlist.model().setseasondate(seasonid, seasondate)

@@ -142,7 +142,7 @@ class season(object):
 class episode(object):
     ''' A representation of an episode '''
 
-    def __init__(self, name = u'', description = u'', number = 0, date = None, id = u'', showid = u'', seasonid = u'', watched = False, data = None):
+    def __init__(self, name = u'', description = u'', number = 0, date = datetime.min, id = u'', showid = u'', seasonid = u'', watched = False, data = None):
         '''
         @type name: str
         @type description: str
@@ -244,7 +244,7 @@ class episode(object):
     def watched(self):
         return self._watched
     
-    @showid.setter
+    @watched.setter
     def watched(self, val):
         if type(val) != bool:
             raise TypeError()
@@ -339,11 +339,11 @@ class showmodel(QAbstractListModel):
         
         if isinstance(date, QDateTime):
             if not date.isValid():
-                date = None
+                date = datetime.min
             else:
                 date = date.toPyDateTime()
                 
-        if date == None:
+        if date == datetime.min:
             if id in self.__dates:
                 del self.__dates[id]
         else:
@@ -462,11 +462,11 @@ class seasonmodel(QAbstractListModel):
         
         if isinstance(date, QDateTime):
             if not date.isValid():
-                date = None
+                date = datetime.min
             else:
                 date = date.toPyDateTime()
                 
-        if date == None:
+        if date == datetime.min:
             if id in self.__dates:
                 del self.__dates[id]
         else:
@@ -482,16 +482,16 @@ class seasonmodel(QAbstractListModel):
         seasons this model represents
         '''
         
-        showdate = None
+        showdate = datetime.min
         
         for season, date in self.__dates.iteritems():
-            if showdate == None:
+            if showdate == datetime.min:
                 showdate = date
             else:
                 if date < showdate:
                     showdate = date
         
-        if showdate == None:
+        if showdate == datetime.min:
             showdate = QDateTime()
             
         return showdate
@@ -552,7 +552,7 @@ class episodemodel(QAbstractTableModel):
                 if index.column() == 0:
                     if role == Qt.DisplayRole:
                         # Display the episode date
-                        if self.__data[index.row()].date != None:
+                        if self.__data[index.row()].date != datetime.min:
                             rval = self.__data[index.row()].date.strftime('%a %d %b %Y')
                         else:
                             rval = ''
@@ -566,7 +566,7 @@ class episodemodel(QAbstractTableModel):
                             rval = Qt.Unchecked
                     elif role == Qt.BackgroundRole:
                         # Return a brush depending on the number of days to the next available episode
-                        if self.__data[index.row()].watched or self.__data[index.row()].date == None:
+                        if self.__data[index.row()].watched or self.__data[index.row()].date == datetime.min:
                             rval = QBrush()
                         else:                        
                             today = datetime.now()
@@ -626,17 +626,17 @@ class episodemodel(QAbstractTableModel):
                 if result:
                     self.__backend.setwatched(self.__data[index.row()].watched, self.__data[index.row()].showid, self.__data[index.row()].seasonid, self.__data[index.row()].id)
                     
-                    newdate = None
+                    newdate = datetime.min
                     for episode in self.__data:
-                        if newdate != None:
-                            if not episode.watched and episode.date != None:
+                        if newdate != datetime.min:
+                            if not episode.watched and episode.date != datetime.min:
                                 if episode.date < newdate:
                                     newdate = episode.date
                         else:
                             if not episode.watched:
                                 newdate = episode.date
 
-                    if newdate == None:
+                    if newdate == datetime.min:
                         newdate = QDateTime()
                     self.emit(SIGNAL('episodestatuschanged(QString, QDateTime)'), self.__seasonid, newdate)
                     

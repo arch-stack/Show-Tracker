@@ -239,7 +239,7 @@ class mainui(QMainWindow):
         '''
         
         seasons = self.backend.getlocalseasons(showid)    
-        showdate = None
+        showdate = datetime.min
 
         for season in seasons:
             episodes = self.backend.getlocalepisodes(showid, season.id)
@@ -248,15 +248,15 @@ class mainui(QMainWindow):
                 # Only accept a date if the episode is not watched
                 #     and the date is earlier than any previously 
                 #     selected date
-                if showdate != None:
-                    if not episode.watched and episode.date != None:
+                if showdate != datetime.min:
+                    if not episode.watched and episode.date != datetime.min:
                         if episode.date < showdate:
                             showdate = episode.date
                 else:
                     if not episode.watched:
                         showdate = episode.date
         
-        if showdate != None:
+        if showdate != datetime.min:
             self.ui.showlist.model().setshowdate(showid, showdate)
         
     def settingscheckboxstatechanged(self, setting, state):
@@ -286,7 +286,7 @@ class mainui(QMainWindow):
         '''
         @type date: date
         '''
-        if date is None:
+        if date is datetime.min:
             self.__lastupdatedlabel.setText('Last updated: Never')
         else:
             self.__lastupdatedlabel.setText('Last updated: %s' % date.strftime('%Y-%m-%d %H:%M:%S'))
