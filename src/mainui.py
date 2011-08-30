@@ -152,7 +152,7 @@ class mainui(QMainWindow):
     
             self.connect(newtab, SIGNAL('episodestatuschanged(QString, QDateTime)'), self.ui.showlist.model().setshowdate)
 
-            tabindex = self.ui.tabs.addTab(newtab, show.name)
+            tabindex = self.ui.tabs.addTab(newtab, show.name.replace('&', 'and'))
             
             if self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab, bool):
                 self.ui.tabs.setCurrentIndex(tabindex)
