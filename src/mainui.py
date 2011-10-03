@@ -11,6 +11,8 @@ from src.storage import storage
 from src.backends.thetvdbbackend import thetvdbbackend
 from src.dataclasses import showmodel
 
+import resources.resources
+
 class mainui(QMainWindow):
     ''' The main window '''
     
