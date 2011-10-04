@@ -26,7 +26,7 @@ class settings(object):
         lastupdated = None
     
     def __init__(self):
-        self.__settings = QSettings(QSettings.UserScope, 'ShowTracker3', 'ShowTracker3')
+        self.__settings = QSettings(QSettings.UserScope, 'ShowTracker', 'ShowTracker')
         self.__path = unicode(QFileInfo(self.__settings.fileName()).absolutePath())
         if len(self.__path) == 0:
             raise RuntimeError('Settings path not found')
