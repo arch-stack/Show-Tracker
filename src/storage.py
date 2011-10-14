@@ -30,6 +30,7 @@ class storage(object):
     def listdir(self, relativepath):
         ''' List directories in the relative path 
         @type relativepath: str
+        @rtype: list
         '''
         
         return os.listdir(os.path.join(self.__path, relativepath))
@@ -37,13 +38,15 @@ class storage(object):
     def exists(self, relativepath):
         ''' Check if the relative path exists 
         @type relativepath: str
+        @rtype: bool
         '''
         
         return os.path.exists(os.path.join(self.__path, relativepath))
     
     def getdata(self, relativepath):
-        ''' Get data from the data at relativepath 
+        ''' Get data from the file at relativepath 
         @type relativepath: str
+        @rtype: str
         '''
         
         fullpath = os.path.join(self.__path, relativepath)

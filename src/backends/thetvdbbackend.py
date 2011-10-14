@@ -28,6 +28,7 @@ class thetvdbbackend(backend):
     def searchshow(self, name):
         '''
         @type name: str
+        @rtype: list
         '''
         data = self._request('http://www.thetvdb.com/api/GetSeries.php?seriesname=%s' % name)
         
@@ -53,6 +54,9 @@ class thetvdbbackend(backend):
         return shows
 
     def getlocalshows(self):
+        '''
+        @rtype: list
+        '''
         shows = []
         
         if self._storage.exists('shows'):
@@ -156,6 +160,7 @@ class thetvdbbackend(backend):
     def getlocalseasons(self, id):
         '''
         @type id: str
+        @rtype: list
         '''
         seasons = {}
         
@@ -189,6 +194,7 @@ class thetvdbbackend(backend):
         '''
         @type showid: str
         @type seasonid: str
+        @rtype: list
         '''
         episodes = []
 
@@ -238,6 +244,9 @@ class thetvdbbackend(backend):
         
         
     def __apikey(self):
+        '''
+        @rtype: str
+        '''
         return self._getsetting('apikey', str, 'C66331E1E6D28F85')
     
     def __loadmirrors(self):

@@ -273,6 +273,7 @@ class showmodel(QAbstractListModel):
         '''
         @type index: QModelIndex
         @type role: Qt.ItemDataRole
+        @rtype: QVariant
         '''
         rval = QVariant()
         
@@ -318,12 +319,14 @@ class showmodel(QAbstractListModel):
     def rowCount(self, parent = QModelIndex()):
         '''
         @type parent: QModelIndex
+        @rtype: number
         '''
         return len(self.__data)
     
     def getshow(self, row):
         ''' Return a show instance based on the row number 
         @type row: int
+        @rtype: L{src.dataclasses.show}
         '''
         
         return self.__data[row]
@@ -395,6 +398,7 @@ class seasonmodel(QAbstractListModel):
         '''
         @type index: QModelIndex
         @type role: Qt.ItemDataRole
+        @rtype: QVariant
         '''
         rval = QVariant()
         
@@ -441,12 +445,14 @@ class seasonmodel(QAbstractListModel):
     def rowCount(self, parent = QModelIndex()):
         '''
         @type parent: QModelIndex
+        @rtype: number
         '''
         return len(self.__data)
     
     def getseason(self, row):
         ''' Return a season instance based on the row number 
         @type row: int
+        @rtype: L{src.dataclasses.season}
         '''
         
         return self.__data[row]
@@ -480,6 +486,7 @@ class seasonmodel(QAbstractListModel):
     def getshowdate(self):
         ''' Return a date based on the earliest date of all the 
         seasons this model represents
+        @rtype: datetime
         '''
         
         showdate = datetime.min
@@ -516,12 +523,14 @@ class episodemodel(QAbstractTableModel):
     def rowCount(self, parent = QModelIndex()):
         '''
         @type parent: QModelIndex
+        @rtype: number
         '''
         return len(self.__data)
 
     def columnCount(self, parent = QModelIndex()):
         '''
         @type parent: QModelIndex
+        @rtype: number
         '''
         return 2
 
@@ -530,6 +539,7 @@ class episodemodel(QAbstractTableModel):
         @type section: int
         @type orientation: Qt.Orientation
         @type role: Qt.ItemDataRole
+        @rtype: QVariant
         '''
         rval = QVariant()
         
@@ -544,6 +554,7 @@ class episodemodel(QAbstractTableModel):
         '''
         @type index: QModelIndex
         @type role: Qt.ItemDataRole
+        @rtype: QVariant
         '''
         rval = QVariant()
         
@@ -585,6 +596,7 @@ class episodemodel(QAbstractTableModel):
     def getepisode(self, row):
         ''' Return an episode instance based on the row number 
         @type row: int
+        @rtype: number
         '''
         
         return self.__data[row]
@@ -592,6 +604,7 @@ class episodemodel(QAbstractTableModel):
     def flags(self, index):
         '''
         @type index: QModelIndex
+        @rtype: Qt.ItemFlags
         '''
         flags = QAbstractTableModel.flags(self, index)
         
@@ -605,6 +618,7 @@ class episodemodel(QAbstractTableModel):
         @type index: QModelIndex
         @type value: obj
         @type role: Qt.ItemDataRole
+        @rtype: bool
         '''
         result = False
         

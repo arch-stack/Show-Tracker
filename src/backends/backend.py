@@ -43,6 +43,7 @@ class backend(object):
     def _request(self, url):
         ''' Request data from url
         @type url: str
+        @rtype: QByteArray
         '''
         
         nam = QNetworkAccessManager()
@@ -73,6 +74,7 @@ class backend(object):
     def getdata(self, relativepath):
         '''
         @type relativepath: str
+        @rtype: str
         '''
         rval = None
         
@@ -99,19 +101,23 @@ class backend(object):
         @type showid: str
         @type seasonid: str
         @type episodeid: str
+        @rtype: bool
         '''
         return self._getsetting('watched/%s/%s/%s' % (showid, seasonid, episodeid), bool, False)
     
     
     def searchshow(self, name):
-        ''' Search for a show and return a list of src.dataclasses.show
+        ''' Search for a show and return a list of L{src.dataclasses.show}
         @type name: str
+        @rtype: L{src.dataclasses.show}
         '''
         
         raise NotImplementedError()
     
     def getlocalshows(self):
-        ''' Return a list local shows as src.dataclasses.show '''
+        ''' Return a list local shows as L{src.dataclasses.show} 
+        @rtype: list
+        '''
         
         raise NotImplementedError()
 
@@ -130,17 +136,19 @@ class backend(object):
         raise NotImplementedError()
     
     def getlocalseasons(self, id):
-        ''' Return a list of local src.dataclasses.season with showid id
+        ''' Return a list of local L{src.dataclasses.season} with showid id
         @type id: str
+        @rtype: list
         '''
         
         raise NotImplementedError()
     
     def getlocalepisodes(self, showid, seasonid):
-        ''' Return a list of local src.dataclasses.episode with 
+        ''' Return a list of local L{src.dataclasses.episode} with 
         show id showid and season id seasonid
         @type showid: str
         @type seasonid: str
+        @rtype: list
         '''
         
         raise NotImplementedError()

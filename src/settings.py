@@ -32,7 +32,9 @@ class settings(object):
             raise RuntimeError('Settings path not found')
         
     def path(self):
-        ''' Return the path to where settings are stored '''
+        ''' Return the path to where settings are stored 
+        @rtype: str
+        '''
         
         return self.__path
     
@@ -52,6 +54,7 @@ class settings(object):
         @type key: str
         @type rtype: type
         @type default: obj
+        @rtype: obj
         '''
                 
         value = default
