@@ -1,5 +1,5 @@
 from PyQt4.QtCore import SIGNAL, Qt, QSize
-from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox, QSpacerItem, QSizePolicy, QDialog, QTextEdit, QVBoxLayout
+from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox, QSpacerItem, QSizePolicy, QDialog, QTextEdit, QVBoxLayout, QMenu
 from PyQt4 import uic
 from exceptions import RuntimeError
 from datetime import datetime
@@ -26,6 +26,13 @@ class mainui(QMainWindow):
         self.__lastupdatedlabel = QLabel()
         
         self.ui.statusbar.addWidget(self.__lastupdatedlabel, 1)
+        
+        self.contextmenu = QMenu(self)
+        self.contextmenu.addAction("Update Shows", self.updateshows)
+        self.contextmenu.addSeparator()
+        self.contextmenu.addAction("Remove Selected", self.removeshows)
+        
+        self.connect(self.ui.showlist, SIGNAL('customContextMenuRequested(const QPoint&)'), self.showcontextmenu)
                 
         self.connect(self.ui.searchbutton, SIGNAL('pressed()'), self.search)
         self.connect(self.ui.addbutton, SIGNAL('pressed()'), self.add)
@@ -74,6 +81,9 @@ class mainui(QMainWindow):
             
         self.ui.statusbar.removeWidget(label)                
             
+    def showcontextmenu(self, point):
+        self.contextmenu.exec_(self.ui.showlist.mapToGlobal(point))
+    
     def search(self):
         ''' Search for a show and display a list of results '''
         
