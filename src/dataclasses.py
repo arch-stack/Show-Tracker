@@ -6,13 +6,24 @@ from exceptions import TypeError
 class show(object):
     ''' A representation of a show '''
     
-    def __init__(self, name = u'', description = u'', image = u'', id = u'', data = None):
+    def __init__(self, name = u'', description = u'', image = u'', id = u'', data = None,
+                 actors = [], contentrating = u'', firstaired = datetime.min, genre = [], imdb = u'', network = u'', rating = 0.0, runtime = 0, status = u''):
         '''
         @type name: str
         @type description: str
         @type image: str
         @type id: str
         @type data: obj
+        
+        @type actors: list
+        @type contentrating: str
+        @type firstaired: datetime
+        @type genre: list
+        @type imdb: str
+        @type network: str
+        @type rating: float
+        @type runtime: int
+        @type status: str
         '''
         
         self.name = name
@@ -20,6 +31,17 @@ class show(object):
         self.image = image
         self.id = id
         self.data = data
+        
+        #Additional non-essential data for the info screen
+        self.actors = actors
+        self.contentrating = contentrating
+        self.firstaired = firstaired
+        self.genre = genre
+        self.imdb = imdb
+        self.network = network
+        self.rating = rating
+        self.runtime = runtime
+        self.status = status
 
     @property
     def name(self):
@@ -64,6 +86,107 @@ class show(object):
             raise TypeError()
         
         self._id = val
+        
+    @property
+    def actors(self):
+        return self._actors
+    
+    @actors.setter
+    def actors(self, val):
+        if type(val) != list:
+            raise TypeError()
+        
+        self._actors = val
+        
+    @property
+    def contentrating(self):
+        return self._contentrating
+    
+    @contentrating.setter
+    def contentrating(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._contentrating = val
+        
+    @property
+    def firstaired(self):
+        return self._firstaired
+    
+    @firstaired.setter
+    def firstaired(self, val):
+        if type(val) != datetime:
+            raise TypeError()
+        
+        self._firstaired = val
+        
+    @property
+    def genre(self):
+        return self._genre
+    
+    @genre.setter
+    def genre(self, val):
+        if type(val) != list:
+            raise TypeError()
+        
+        self._genre = val
+        
+    @property
+    def imdb(self):
+        return self._imdb
+    
+    @imdb.setter
+    def imdb(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._imdb = val
+        
+    @property
+    def network(self):
+        return self._network
+    
+    @network.setter
+    def network(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._network = val
+        
+    @property
+    def rating(self):
+        return self._rating
+    
+    @rating.setter
+    def rating(self, val):
+        if type(val) != float:
+            raise TypeError()
+        
+        self._rating = val
+        
+    @property
+    def runtime(self):
+        return self._runtime
+    
+    @runtime.setter
+    def runtime(self, val):
+        if type(val) != int:
+            raise TypeError()
+        
+        self._runtime = val
+        
+    @property
+    def status(self):
+        return self._status
+    
+    @status.setter
+    def status(self, val):
+        if type(val) != unicode:
+            raise TypeError()
+        
+        self._status = val
+        
+
                     
 class season(object):
     ''' A representation of a season '''

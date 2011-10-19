@@ -6,6 +6,7 @@ import datetime
 import tempfile
 import os
 import shutil
+from datetime import datetime
 
 from src.dataclasses import show, season, episode
 from src.storage import storage
@@ -19,14 +20,24 @@ class dataclasses_datastructures(unittest.TestCase):
         pass
     
     def test_show(self):
-        obj = show(u'a', u'b', u'c', u'd', 1)
+        obj = show(u'a', u'b', u'c', u'd', 1, [u'a'], u'e', datetime.min, [u'b'], u'f', u'g', 2.1, 3, u'h')
         self.assertEqual(obj.name, u'a', 'name is assigned incorrectly')
         self.assertEqual(obj.description, u'b', 'description is assigned incorrectly')
         self.assertEqual(obj.image, u'c', 'image is assigned incorrectly')
         self.assertEqual(obj.id, u'd', 'id is assigned incorrectly')
         self.assertEqual(obj.data, 1, 'data is assigned incorrectly')
+
+        self.assertEqual(obj.actors, [u'a'], 'actors is assigned incorrectly')
+        self.assertEqual(obj.contentrating, u'e', 'contentrating is assigned incorrectly')
+        self.assertEqual(obj.firstaired, datetime.min, 'firstaired is assigned incorrectly')
+        self.assertEqual(obj.genre, [u'b'], 'genre is assigned incorrectly')
+        self.assertEqual(obj.imdb, u'f', 'imdb is assigned incorrectly')
+        self.assertEqual(obj.network, u'g', 'network is assigned incorrectly')
+        self.assertEqual(obj.rating, 2.1, 'rating is assigned incorrectly')
+        self.assertEqual(obj.runtime, 3, 'runtime is assigned incorrectly')
+        self.assertEqual(obj.status, u'h', 'status is assigned incorrectly')
         
-        self.assertRaises(exceptions.TypeError, show, (1, 1, 1, 1))
+        self.assertRaises(exceptions.TypeError, show, (1, 1, 1, 1, None, '', '', 1, 1, '', 1, 1, '', '', 1))
     
     def test_season(self):
         obj = season(u'a', u'b', 1, u'c', u'd', 2)
@@ -40,11 +51,11 @@ class dataclasses_datastructures(unittest.TestCase):
         self.assertRaises(exceptions.TypeError, season, (1, 1, '', 1, 1))
     
     def test_episode(self):
-        obj = episode(u'a', u'b', 1, datetime.datetime(2000, 1, 1), u'c', u'd', u'e', True, 2)
+        obj = episode(u'a', u'b', 1, datetime(2000, 1, 1), u'c', u'd', u'e', True, 2)
         self.assertEqual(obj.name, u'a', 'name is assigned incorrectly')
         self.assertEqual(obj.description, u'b', 'description is assigned incorrectly')
         self.assertEqual(obj.number, 1, 'number is assigned incorrectly')
-        self.assertEqual(obj.date, datetime.datetime(2000, 1, 1), 'date is assigned incorrectly')
+        self.assertEqual(obj.date, datetime(2000, 1, 1), 'date is assigned incorrectly')
         self.assertEqual(obj.id, u'c', 'id is assigned incorrectly')
         self.assertEqual(obj.showid, u'd', 'showid is assigned incorrectly')
         self.assertEqual(obj.seasonid, u'e', 'seasonid is assigned incorrectly')

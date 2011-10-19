@@ -78,6 +78,16 @@ class thetvdbbackend(backend):
                     newshow.image = unicode(QString(showxml.toElement().elementsByTagName('banner').at(0).firstChild().toText().data()))
                     newshow.data = showxml.toElement()
                     
+                    newshow.actors = unicode(QString(showxml.toElement().elementsByTagName('Actors').at(0).childNodes().at(0).toText().data())).strip('|').split('|')
+                    newshow.contentrating = unicode(QString(showxml.toElement().elementsByTagName('ContentRating').at(0).childNodes().at(0).toText().data()))
+                    newshow.firstaired = datetime.fromtimestamp(mktime(strptime(unicode(QString(showxml.toElement().elementsByTagName('FirstAired').at(0).childNodes().at(0).toText().data())), '%Y-%m-%d')))
+                    newshow.genre = unicode(QString(showxml.toElement().elementsByTagName('Genre').at(0).childNodes().at(0).toText().data())).strip('|').split('|')
+                    newshow.imdb = unicode(QString(showxml.toElement().elementsByTagName('IMDB_ID').at(0).childNodes().at(0).toText().data()))
+                    newshow.network = unicode(QString(showxml.toElement().elementsByTagName('Network').at(0).childNodes().at(0).toText().data()))
+                    newshow.rating = float(unicode(QString(showxml.toElement().elementsByTagName('Rating').at(0).childNodes().at(0).toText().data())))
+                    newshow.runtime = int(unicode(QString(showxml.toElement().elementsByTagName('Runtime').at(0).childNodes().at(0).toText().data())))
+                    newshow.status = unicode(QString(showxml.toElement().elementsByTagName('Status').at(0).childNodes().at(0).toText().data()))
+                    
                     shows.append(newshow)
         
         return shows

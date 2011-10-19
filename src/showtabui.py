@@ -55,6 +55,16 @@ class showtabui(QWidget):
         
         self.ui.descriptiontext.setText(show.description)
 
+        self.ui.actorstext.setText(', '.join(show.actors))
+        self.ui.contentratingtext.setText(show.contentrating)
+        self.ui.firstairedtext.setText(show.firstaired.strftime('%Y-%m-%d'))
+        self.ui.genretext.setText(', '.join(show.genre))
+        self.ui.imdbtext.setText('<a href="http://www.imdb.com/title/%s/">IMDB</a>' % show.imdb)
+        self.ui.networktext.setText(show.network)
+        self.ui.ratingtext.setText('%.1f' % show.rating)
+        self.ui.runtimetext.setText('%d' % show.runtime)
+        self.ui.statustext.setText(show.status)
+
         seasons = self.backend.getlocalseasons(show.id)
         
         seasonsmodel = seasonmodel(self.backend, seasons)        
