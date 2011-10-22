@@ -1,5 +1,5 @@
 from PyQt4.QtCore import SIGNAL, Qt, QSize
-from PyQt4.QtGui import QMainWindow, QLabel, QProgressBar, QMessageBox, QSpacerItem, QSizePolicy, QDialog, QTextEdit, QVBoxLayout, QMenu
+from PyQt4.QtGui import QApplication, QMainWindow, QLabel, QProgressBar, QMessageBox, QSpacerItem, QSizePolicy, QDialog, QTextEdit, QVBoxLayout, QMenu
 from PyQt4 import uic
 from exceptions import RuntimeError
 from datetime import datetime
@@ -166,7 +166,7 @@ class mainui(QMainWindow):
 
             tabindex = self.ui.tabs.addTab(newtab, show.name.replace('&', 'and'))
             
-            if self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab, bool):
+            if not QApplication.keyboardModifiers() & Qt.ControlModifier and self.settings.get(settings.categories.application, settings.keys.autoswitchshowtab, bool):
                 self.ui.tabs.setCurrentIndex(tabindex)
         
     def updateshows(self):

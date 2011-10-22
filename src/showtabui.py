@@ -1,5 +1,5 @@
-from PyQt4.QtCore import SIGNAL, pyqtSignal
-from PyQt4.QtGui import QWidget, QPixmap, QImage
+from PyQt4.QtCore import SIGNAL, pyqtSignal, Qt
+from PyQt4.QtGui import QApplication, QWidget, QPixmap, QImage
 from PyQt4 import uic
 import os.path
 from datetime import datetime
@@ -98,7 +98,7 @@ class showtabui(QWidget):
     
             tabindex = self.ui.tabs.addTab(newtab, 'Season %d' % season.number)
             
-            if self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab, bool):
+            if not QApplication.keyboardModifiers() & Qt.ControlModifier and self.settings.get(settings.categories.application, settings.keys.autoswitchseasontab, bool):
                 self.ui.tabs.setCurrentIndex(tabindex)
 
     def episodestatuschangedfunc(self, id, date):
