@@ -106,7 +106,7 @@ class thetvdbbackend(backend):
         zipdata = self._request(urljoin(choice(self.__mirrors[2]), '/api/%s/series/%s/all/en.zip' % (self.__apikey(), id)))
         
         zipio = BytesIO()
-        zipio.write(zipdata)
+        zipio.write(bytes(zipdata))
         
         zipfile = ZipFile(zipio)
         
