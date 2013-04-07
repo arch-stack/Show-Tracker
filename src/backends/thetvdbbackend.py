@@ -84,7 +84,15 @@ class thetvdbbackend(backend):
                     newshow.genre = unicode(QString(showxml.toElement().elementsByTagName('Genre').at(0).childNodes().at(0).toText().data())).strip('|').split('|')
                     newshow.imdb = unicode(QString(showxml.toElement().elementsByTagName('IMDB_ID').at(0).childNodes().at(0).toText().data()))
                     newshow.network = unicode(QString(showxml.toElement().elementsByTagName('Network').at(0).childNodes().at(0).toText().data()))
-                    newshow.rating = float(unicode(QString(showxml.toElement().elementsByTagName('Rating').at(0).childNodes().at(0).toText().data())))
+
+                    rating = unicode(QString(
+                        showxml.toElement().elementsByTagName('Rating').at(0).childNodes().at(0).toText().data()))
+
+                    if rating != '':
+                        newshow.rating = float(rating)
+                    else:
+                        newshow.rating = 0.0
+
                     newshow.runtime = int(unicode(QString(showxml.toElement().elementsByTagName('Runtime').at(0).childNodes().at(0).toText().data())))
                     newshow.status = unicode(QString(showxml.toElement().elementsByTagName('Status').at(0).childNodes().at(0).toText().data()))
                     
