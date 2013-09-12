@@ -298,7 +298,7 @@ class mainui(QMainWindow):
         '''
         @type date: date
         '''
-        if date is datetime.min:
+        if date is datetime.min or date is None:
             self.__lastupdatedlabel.setText('Last updated: Never')
         else:
             self.__lastupdatedlabel.setText('Last updated: %s' % date.strftime('%Y-%m-%d %H:%M:%S'))

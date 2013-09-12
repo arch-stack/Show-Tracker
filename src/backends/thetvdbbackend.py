@@ -80,7 +80,13 @@ class thetvdbbackend(backend):
                     
                     newshow.actors = unicode(QString(showxml.toElement().elementsByTagName('Actors').at(0).childNodes().at(0).toText().data())).strip('|').split('|')
                     newshow.contentrating = unicode(QString(showxml.toElement().elementsByTagName('ContentRating').at(0).childNodes().at(0).toText().data()))
-                    newshow.firstaired = datetime.fromtimestamp(mktime(strptime(unicode(QString(showxml.toElement().elementsByTagName('FirstAired').at(0).childNodes().at(0).toText().data())), '%Y-%m-%d')))
+
+                    firstaired = unicode(QString(showxml.toElement().elementsByTagName('FirstAired').at(0).childNodes().at(0).toText().data()))
+                    if firstaired != '':
+                        newshow.firstaired = datetime.fromtimestamp(mktime(strptime(firstaired, '%Y-%m-%d')))
+                    else:
+                        newshow.firstaired = datetime.now()
+
                     newshow.genre = unicode(QString(showxml.toElement().elementsByTagName('Genre').at(0).childNodes().at(0).toText().data())).strip('|').split('|')
                     newshow.imdb = unicode(QString(showxml.toElement().elementsByTagName('IMDB_ID').at(0).childNodes().at(0).toText().data()))
                     newshow.network = unicode(QString(showxml.toElement().elementsByTagName('Network').at(0).childNodes().at(0).toText().data()))
